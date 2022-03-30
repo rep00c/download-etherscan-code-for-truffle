@@ -1,5 +1,6 @@
 ETHERSCAN_API_KEY = "FILL IT!"
 ETHERSCAN_MAINNET_GET_SOURCE_CODE_URL = f"https://api.etherscan.io/api?module=contract&action=getsourcecode&address={{}}&apikey={ETHERSCAN_API_KEY}"
+ETHEREUM_RPC_URL = "https://rpc.flashbots.net"
 
 class bcolors:
     HEADER = '\033[95m'

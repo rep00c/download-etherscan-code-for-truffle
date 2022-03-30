@@ -7,6 +7,8 @@ Download solidity source code from etherscan verified smart contract via inputin
 
 Copying code snippets from etherscan's code page into the workspace is a hassle, so I wrote this little tool.
 
+It can expand flattened file, saving it as multiple files.
+
 ## How
 
 Fill in your etherscan api key in config.py

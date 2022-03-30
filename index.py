@@ -71,10 +71,16 @@ def write_files(codes, contract_name, base_dir):
             with open(filename, "w") as f:
                 f.write(data) 
     else:
-        filename = os.path.join(base_dir, contract_name + ".sol")
-        print("Writing file:", bcolors.OKBLUE, filename, bcolors.ENDC)
-        with open(filename, "w") as f:
-            f.write(codes)
+        each_files = re.findall(r"\/\/ File ([\s\S]*?\.sol)([\s\S]*?)(?=\/\/ File|$)", codes)
+        last_file = ""
+        for (filename, code) in each_files:
+            full_filename = os.path.join(base_dir, os.path.basename(filename))
+            print("Writing file:", bcolors.OKBLUE, full_filename, bcolors.ENDC)
+            with open(full_filename, "w") as f:
+                print(code.strip("\r\n"))
+                f.write((f"import \"./{last_file}\";\r\n" if last_file else "") + code.strip("\r\n"))
+
+            last_file = os.path.basename(filename)
 
 
 def work():

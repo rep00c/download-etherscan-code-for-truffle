@@ -14,11 +14,20 @@ It can expand flattened file, saving it as multiple files.
 
 ## How
 
-Fill in your etherscan api key in config.py
+Fill in your etherscan(bscscan...) api key in config.py
 
-add `alias c='python3 path/to/index.py` to `~/.bashrc`
+add `alias c='python3 path/to/index.py` to `~/.bashrc` 
+
+You can name it anything you like. If you want name it 'dcode' instead of 'c'
+
+add `alias dcode='python3 path/to/index.py` to `~/.bashrc` 
 
 then
+```shell
+source ~/.bashrc
+```
+
+how to use it:
 
 ```shell
 c https://etherscan.io/address/0x025C6da5BD0e6A5dd1350fda9e3B6a614B205a1F

@@ -2,29 +2,31 @@ class ChainId:
     ETHEREUM = 1
     BSC = 56
     AVALANCHE = 43114
+    POLYGON = 137
 
 API_KEY = {
     ChainId.ETHEREUM: "",
     ChainId.BSC: "",
-    ChainId.AVALANCHE: ""
+    ChainId.AVALANCHE: "",
+    ChainId.POLYGON: "",
 }
 
 BROWSER_URL = {
-    ChainId.ETHEREUM: "https://etherscan.io",
-    ChainId.BSC: "https://bscscan.com",
-    ChainId.AVALANCHE: "https://snowtrace.io"
-}
-
-GET_SOURCE_CODE_URL = {
-    ChainId.ETHEREUM: f"https://api.etherscan.io/api?module=contract&action=getsourcecode&address={{}}&apikey={API_KEY[ChainId.ETHEREUM]}",
-    ChainId.BSC: f"https://api.bscscan.com/api?module=contract&action=getsourcecode&address={{}}&apikey={API_KEY[ChainId.BSC]}",
-    ChainId.AVALANCHE: f"https://api.snowtrace.io/api?module=contract&action=getsourcecode&address={{}}&apikey={API_KEY[ChainId.AVALANCHE]}"
+    ChainId.ETHEREUM: "etherscan.io",
+    ChainId.BSC: "bscscan.com",
+    ChainId.AVALANCHE: "snowtrace.io",
+    ChainId.POLYGON: "polygonscan.com"
 }
 
 RPC_URL = {
     ChainId.ETHEREUM: "https://rpc.flashbots.net",
     ChainId.BSC: "https://bsc-dataseed.binance.org/",
-    ChainId.AVALANCHE: "https://api.avax.network/ext/bc/C/rpc"
+    ChainId.AVALANCHE: "https://api.avax.network/ext/bc/C/rpc",
+    ChainId.POLYGON: "https://polygon-rpc.com/"
+}
+
+RPC_ENDPOINTS = {
+    "getsourcecode": "https://api.{}/api?module=contract&action=getsourcecode&address={}&apikey={}"
 }
 
 

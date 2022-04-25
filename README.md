@@ -1,5 +1,6 @@
 ## update
 [+] 2022/4/25 Update logic strategy, add polygon.
+
 [+] 2022/4/24 add support for bscscan, snowtrace.
 
 # download-etherscan-code-for-truffle

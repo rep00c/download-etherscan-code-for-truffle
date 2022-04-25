@@ -11,12 +11,10 @@ def pre_check():
     global contract_address
     global chain_id
     
-    if "snowtrace" in sys.argv[1]:
-        chain_id = ChainId.AVALANCHE  # AVAX
-    elif "bscscan" in sys.argv[1]:
-        chain_id = ChainId.BSC  # BSC
-    else:
-        chain_id = ChainId.ETHEREUM  # Ethereum\
+    chain_id = ChainId.ETHEREUM  # default Ethereum
+    for i, j in BROWSER_URL.items():
+        if j in sys.argv[1]:
+            chain_id = i
     print("Chain id:", bcolors.OKGREEN, chain_id, bcolors.ENDC)
 
     if (len(sys.argv) != 2):
@@ -36,7 +34,7 @@ def real_res():
 
     while True:
         print( "Searching solidity code of address:", bcolors.OKGREEN , contract_address, bcolors.ENDC)
-        res = requests.get(GET_SOURCE_CODE_URL[chain_id].format(contract_address)).json()
+        res = requests.get(RPC_ENDPOINTS['getsourcecode'].format(BROWSER_URL[chain_id], contract_address, API_KEY[chain_id])).json()
         contract_name = res['result'][0]['ContractName']
 
         if contract_name in ['UpgradeableProxy', 'TransparentUpgradeableProxy', 'AdminUpgradeabilityProxy', 'BeaconProxy']:
@@ -48,7 +46,7 @@ def real_res():
                 contract_address = logic_address
                 print( "Found logic contract address:", bcolors.OKGREEN , contract_address, bcolors.ENDC)
                 if contract_name in ['BeaconProxy']:
-                    sys.exit(bcolors.FAIL + f"Beacon proxy contract pattern: {BROWSER_URL[chain_id]}/address/{contract_address}#code. Please check it manually." + bcolors.ENDC)
+                    sys.exit(bcolors.FAIL + f"Beacon proxy contract pattern: https://{BROWSER_URL[chain_id]}/address/{contract_address}#code. Please check it manually." + bcolors.ENDC)
                 continue
         break
 

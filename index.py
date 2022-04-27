@@ -68,8 +68,12 @@ def create_directory(directory):
 
 
 def write_files(codes, contract_name, base_dir):
-    if (codes[0] == '{' and codes[1] == '{'):
-        codes = json.loads(codes[1:-1])['sources']
+    if (codes[0] == '{'):
+        if codes[1] == '{':
+            codes = json.loads(codes[1:-1])['sources']
+        else:
+            codes = json.loads(codes)
+
         for i in codes:
             raw_code = codes[i]['content']
             data = re.sub(r".*import.*['\"](?P<filename>.*\.sol)['\"]", import_replace, raw_code)
@@ -77,7 +81,7 @@ def write_files(codes, contract_name, base_dir):
             filename = os.path.join(base_dir, os.path.basename(i))
             print("Writing file:", bcolors.OKBLUE, filename, bcolors.ENDC)
             with open(filename, "w") as f:
-                f.write(data) 
+                f.write(data)
     else:
         each_files = re.findall(r"\/\/ File ([\s\S]*?\.sol)([\s\S]*?)(?=\/\/ File|$)", codes)
 

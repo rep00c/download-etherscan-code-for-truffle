@@ -37,6 +37,9 @@ def real_res():
         res = requests.get(RPC_ENDPOINTS['getsourcecode'].format(BROWSER_URL[chain_id], contract_address, API_KEY[chain_id])).json()
         contract_name = res['result'][0]['ContractName']
 
+        if contract_name == 'Diamond':
+            sys.exit(bcolors.FAIL + f"Diamond proxy contract pattern: https://{BROWSER_URL[chain_id]}/address/{contract_address}#code. Please check it manually." + bcolors.ENDC)
+        
         if contract_name in ['UpgradeableProxy', 'TransparentUpgradeableProxy', 'AdminUpgradeabilityProxy', 'BeaconProxy']:
             c = input(f"This contract seems like a proxy contract, {bcolors.WARNING}find its implementation{bcolors.ENDC} or not?({bcolors.WARNING}Y{bcolors.ENDC}/n)")
             if c != 'n':
@@ -83,9 +86,13 @@ def write_files(codes, contract_name, base_dir):
             with open(filename, "w") as f:
                 f.write(data)
     else:
-        each_files = re.findall(r"\/\/ File ([\s\S]*?\.sol)([\s\S]*?)(?=\/\/ File|$)", codes)
+        each_files = re.findall(r"\/\/ File ([\s\S]*?\.sol)(?:.*)([\s\S]*?)(?=\/\/ File|$)", codes)
+        each_parts = re.findall(r"pragma\s+solidity([\s\S]*?)(?=\/\/ File|$)", codes)
 
-        if len(each_files) == 0:
+
+        if len(each_files) != len(each_parts):
+            print(bcolors.FAIL + "Something error, writing as single file" + bcolors.ENDC)
+        if len(each_files) == 0 or len(each_files) != len(each_parts):
             full_filename = os.path.join(base_dir, contract_name+".sol")
             print("Writing file:", bcolors.OKBLUE, full_filename, bcolors.ENDC)
             with open(full_filename, "w") as f:
